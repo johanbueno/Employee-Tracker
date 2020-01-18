@@ -6,7 +6,7 @@ USE employee_trackerDB;
 
 CREATE TABLE department (
     id INT NOT NULL auto_increment,
-    name  VARCHAR(30) 
+    dpt_name  VARCHAR(30), 
     PRIMARY KEY (id)
 );
  CREATE TABLE role (
@@ -21,6 +21,19 @@ CREATE TABLE employee (
       first_name  VARCHAR (30),
       last_name VARCHAR (30),
       role_id INT,
-      manager_id INT NULL,
-
+      manager_id INT,
+    PRIMARY KEY (id)
 );
+
+USE employee_trackerDB;
+
+SELECT first_name, last_name,title,salary
+FROM role
+RIGHT JOIN employee ON role.id = employee.id;
+
+SELECT first_name, last_name,title,salary,dpt_name 
+FROM department
+RIGHT JOIN employee ON department.id = employee.role_id;
+
+
+
