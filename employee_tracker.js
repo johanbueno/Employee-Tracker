@@ -3,16 +3,28 @@ var inquirer = require("inquirer");
 const cTable = require('console.table');
 var colors = require('colors');
 
-var connection = mysql.createConnection({
-  host: "localhost",
+if (process.env.JAWSDB_URL){
+  connection =  mysql.createConnection(process.env.JAWSDB_URL);
 
-  port: 3306,
+} else {
+  connection = mysql.createConnection({
+    host: 'localhost',
+    user: 'root',
+    password: 'Sebastian7201',
+    database: 'employee_trackerDB'
+  });
+};
 
-  user: "root",
+// var connection = mysql.createConnection({
+//   host: "localhost",
 
-  password: "Sebastian7201",
-  database: "employee_trackerDB"
-});
+//   port: 3306,
+
+//   user: "root",
+
+//   password: "Sebastian7201",
+//   database: "employee_trackerDB"
+// });
 console.log(colors.green('///////////////////////////////////////////////////////'));
 console.log(colors.green('///////////////////////////////////////////////////////'));
 console.log(colors.blue('--------------------- Employee Tracker------------------'));
@@ -72,7 +84,7 @@ function viewEmployees() {
   connection.query("SELECT * FROM employee", function (err, res) {
     if (err) throw err;
     for (var i = 0; i < res.length; i++) {
-      console.log(res[i].id + " | " + res[i].first_name + " | " + res[i].last_name + " | " + res[i].role_id + "|" + res[i].manager_id);
+      // console.log(res[i].id + " | " + res[i].first_name + " | " + res[i].last_name + " | " + res[i].role_id + "|" + res[i].manager_id);
     }
     console.table(res);
     console.log("-----------------------------------");
@@ -84,7 +96,7 @@ function viewDepartment() {
   connection.query("SELECT * FROM department", function (err, res) {
     if (err) throw err;
     for (var i = 0; i < res.length; i++) {
-      console.log(res[i].id + " | " + res[i].dpt_name);
+      // console.log(res[i].id + " | " + res[i].dpt_name);
     }
     console.table(res);
     console.log("-----------------------------------");
@@ -97,13 +109,12 @@ function viewRoles() {
     if (err) throw err;
     for (var i = 0; i < res.length; i++) {
 
-      console.log(res[i].id + " | " + res[i].title + " | " + res[i].salary + " | " + res[i].department_id);
+      // console.log(res[i].id + " | " + res[i].title + " | " + res[i].salary + " | " + res[i].department_id);
     }
     console.table(res);
     console.log("-----------------------------------");
   });
 }
-
 function addEmployee() {
 
   inquirer
