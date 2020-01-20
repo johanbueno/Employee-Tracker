@@ -3,8 +3,8 @@ var inquirer = require("inquirer");
 const cTable = require('console.table');
 var colors = require('colors');
 
-if (process.env.JAWSDB_URL){
-  connection =  mysql.createConnection(process.env.JAWSDB_URL);
+if (process.env.JAWSDB_URL) {
+  connection = mysql.createConnection(process.env.JAWSDB_URL);
 
 } else {
   connection = mysql.createConnection({
@@ -48,8 +48,9 @@ function start() {
         "view all roles",
         "Add new Employee",
         "Add new Role",
-        "Add new department"
-        ]
+        "Add new department",
+        "Remove a employee",
+      ]
     })
     .then(function (answer) {
 
@@ -72,6 +73,11 @@ function start() {
         addDepartment()
       }
 
+      else if (answer.choice === "Remove a employee") {
+
+        deleteEmployee();
+      }
+
       else {
         connection.end();
       }
@@ -80,7 +86,7 @@ function start() {
 
 function viewEmployees() {
   console.log("test employees");
-  
+
   connection.query("SELECT * FROM employee", function (err, res) {
     if (err) throw err;
     for (var i = 0; i < res.length; i++) {
@@ -191,25 +197,25 @@ function addRole() {
           }
           return false;
         }
-      }       
+      }
     ])
     .then(function (answerB) {
-        // when finished prompting, insert a new item into the db
-        connection.query(
-          "INSERT INTO role SET ?",
-          {
-            title: answerB.title,
-            salary: answerB.salary || 0,
-            department_id: answerB.department_id || 0,
-          },
-          function (err) {
-            if (err) throw err;
-            console.log("Your new Role was added successfully!");
+      // when finished prompting, insert a new item into the db
+      connection.query(
+        "INSERT INTO role SET ?",
+        {
+          title: answerB.title,
+          salary: answerB.salary || 0,
+          department_id: answerB.department_id || 0,
+        },
+        function (err) {
+          if (err) throw err;
+          console.log("Your new Role was added successfully!");
 
-            viewRoles();
-          }
-        );
-      });
+          viewRoles();
+        }
+      );
+    });
 }
 function addDepartment() {
 
@@ -219,23 +225,52 @@ function addDepartment() {
         name: "title",
         type: "input",
         message: "Please name the new department ?",
-        
-      }   
+
+      }
     ])
     .then(function (answerC) {
-        // when finished prompting, insert a new item into the db
-        connection.query(
-          "INSERT INTO department SET ?",
-          {
-            dpt_name : answerC.title,
+      // when finished prompting, insert a new item into the db
+      connection.query(
+        "INSERT INTO department SET ?",
+        {
+          dpt_name: answerC.title,
 
-          },
-          function (err) {
-            if (err) throw err;
-            console.log("Your new department was added successfully!");
+        },
+        function (err) {
+          if (err) throw err;
+          console.log("Your new department was added successfully!");
 
-            viewDepartment();
-          }
-        );
-      });
+          viewDepartment();
+        }
+      );
+    });
+}
+
+function deleteEmployee() {
+
+  inquirer
+    .prompt([
+      {
+        name: "title",
+        type: "input",
+        message: "Please remove employee by id ",
+
+      }
+    ])
+    .then(function (answerD) {
+
+      connection.query(
+        "DELETE FROM employee WHERE id = ?",
+        {
+          id: answerD.title,
+
+        },
+        function (err) {
+          if (err) throw err;
+          console.log("Your employee is removed from data list!");
+
+          viewEmployees();
+        }
+      );
+    });
 }
