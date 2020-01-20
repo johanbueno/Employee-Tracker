@@ -7,12 +7,19 @@ Employee Tracker
  *  View departments, roles, employees
  *  Remove Employee
 
+
+
  # Technologies 
 *  Mysql 
 * InquirerJs 
 
 
+#  Instructions 
 
+*  Use schema.sql file on your MYSQL to create database and tables
+*  import the csv files on the tables
+*  Run the command line and npm install on your machine 
+*  Run the application 
 
 # <video width="320" height="240" controls>
   <source src="./assets/adding-employee.mov" type="video/mp4">

@@ -27,6 +27,8 @@ CREATE TABLE employee (
 
 USE employee_trackerDB;
 
+
+ ---- future Development ----
 SELECT first_name, last_name,title,salary
 FROM role
 RIGHT JOIN employee ON role.id = employee.id;
