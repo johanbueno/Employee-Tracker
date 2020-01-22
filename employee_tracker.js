@@ -10,7 +10,7 @@ if (process.env.JAWSDB_URL) {
   connection = mysql.createConnection({
     host: 'localhost',
     user: 'root',
-    password: 'Sebastian7201',
+    password: 'johan123',
     database: 'employee_trackerDB'
   });
 };
@@ -94,6 +94,7 @@ function viewEmployees() {
     }
     console.table(res);
     console.log("-----------------------------------");
+    start()
   });
 }
 
@@ -106,7 +107,9 @@ function viewDepartment() {
     }
     console.table(res);
     console.log("-----------------------------------");
+    start()
   });
+  
 }
 
 function viewRoles() {
@@ -119,6 +122,7 @@ function viewRoles() {
     }
     console.table(res);
     console.log("-----------------------------------");
+    start()
   });
 }
 function addEmployee() {
@@ -169,9 +173,11 @@ function addEmployee() {
           console.log("Your new Employee was added successfully!");
 
           viewEmployees();
+          
         }
       );
-    });
+    })
+   
 }
 function addRole() {
 
@@ -213,6 +219,7 @@ function addRole() {
           console.log("Your new Role was added successfully!");
 
           viewRoles();
+        
         }
       );
     });
@@ -241,9 +248,11 @@ function addDepartment() {
           console.log("Your new department was added successfully!");
 
           viewDepartment();
+          
         }
       );
     });
+
 }
 
 function deleteEmployee() {
@@ -260,17 +269,15 @@ function deleteEmployee() {
     .then(function (answerD) {
 
       connection.query(
-        "DELETE FROM employee WHERE id = ?",
-        {
-          id: answerD.title,
-
-        },
+        "DELETE FROM employee WHERE id = ?",{id:answerD.title},
         function (err) {
           if (err) throw err;
           console.log("Your employee is removed from data list!");
 
-          viewEmployees();
+        
+         
         }
-      );
+
+      );  viewEmployees();
     });
 }
